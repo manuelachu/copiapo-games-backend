@@ -11,14 +11,18 @@ export const getGames = async (req, res) => {
 
 export const addGame = async (req, res) => {
   try {
-    const { titulo, descripcion, precio, imagen, consola } = req.body;
+    // 📦 Añadimos 'stock' a la desestructuración
+    const { titulo, descripcion, precio, imagen, consola, stock } = req.body;
     const usuario_id = req.user.id; 
 
     if (!titulo || !precio || !consola) {
       return res.status(400).json({ error: "Título, precio y consola son obligatorios" });
     }
 
-    const newGame = await createGame(titulo, descripcion, precio, imagen, consola, usuario_id);
+    // 🚀 Le pasamos el stock (si no viene, por defecto será 0) al modelo
+    const stockValue = stock !== undefined ? parseInt(stock) : 0;
+
+    const newGame = await createGame(titulo, descripcion, precio, imagen, consola, usuario_id, stockValue);
     res.status(201).json({ message: "Juego publicado con éxito", game: newGame });
   } catch (error) {
     res.status(500).json({ error: error.message });
