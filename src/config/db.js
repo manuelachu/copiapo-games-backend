@@ -15,7 +15,7 @@ const pool = new pg.Pool({
   }
 });
 
-// 🚀 FUNCIÓN AUTOMÁTICA PARA AGREGAR LA COLUMNA STOCK
+
 const verificarYAgregarStock = async () => {
   try {
     const checkColumnQuery = `
@@ -36,7 +36,7 @@ const verificarYAgregarStock = async () => {
   }
 };
 
-// Se ejecuta de inmediato al levantar la conexión
+
 verificarYAgregarStock();
 
 export default pool;

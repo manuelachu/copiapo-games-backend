@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Registro de Módulos de Rutas
+
 app.use('/api/auth', authRoutes);
 app.use('/api/games', gameRoutes);
 
