@@ -1,20 +1,26 @@
 import pool from '../config/db.js';
 
 export const getAllGames = async () => {
- 
   const query = 'SELECT * FROM videojuegos';
   const { rows } = await pool.query(query);
   return rows;
 };
 
-export const createGame = async (titulo, descripcion, precio, imagen, consola, usuario_id, stock, cargado_por) => {
+// 🌟 Modificado para insertar redes sociales y nombre de contacto
+export const createGame = async (titulo, descripcion, precio, imagen, consola, usuario_id, stock, cargado_por, nombre_contacto, facebook, instagram) => {
   const query = `
-    INSERT INTO videojuegos (titulo, descripcion, precio, imagen, consola, usuario_id, stock, cargado_por) 
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
+    INSERT INTO videojuegos (titulo, descripcion, precio, imagen, consola, usuario_id, stock, cargado_por, nombre_contacto, facebook, instagram) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
     RETURNING *`;
     
-  
-  const values = [titulo, descripcion, precio, imagen, consola, usuario_id, stock, cargado_por];
+  const values = [titulo, descripcion, precio, imagen, consola, usuario_id, stock, cargado_por, nombre_contacto, facebook, instagram];
   const { rows } = await pool.query(query, values);
+  return rows[0];
+};
+
+// 🌟 Nueva función para eliminar el juego de la base de datos
+export const deleteGameById = async (id, usuario_id) => {
+  const query = 'DELETE FROM videojuegos WHERE id = $1 AND usuario_id = $2 RETURNING *';
+  const { rows } = await pool.query(query, [id, usuario_id]);
   return rows[0];
 };
