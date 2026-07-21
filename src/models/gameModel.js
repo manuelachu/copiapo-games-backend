@@ -6,7 +6,7 @@ export const getAllGames = async () => {
   return rows;
 };
 
-// 🌟 Modificado para insertar redes sociales y nombre de contacto
+
 export const createGame = async (titulo, descripcion, precio, imagen, consola, usuario_id, stock, cargado_por, nombre_contacto, facebook, instagram) => {
   const query = `
     INSERT INTO videojuegos (titulo, descripcion, precio, imagen, consola, usuario_id, stock, cargado_por, nombre_contacto, facebook, instagram) 
@@ -18,9 +18,9 @@ export const createGame = async (titulo, descripcion, precio, imagen, consola, u
   return rows[0];
 };
 
-// 🌟 Función de eliminación adaptada para usuarios dueños Y Administradores
+
 export const deleteGameById = async (id, usuario_id) => {
-  // Consulta SQL que permite eliminar si eres el creador ($2) O si eres Admin
+  
   const query = `
     DELETE FROM videojuegos 
     WHERE id = $1 

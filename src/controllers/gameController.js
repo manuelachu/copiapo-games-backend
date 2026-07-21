@@ -11,7 +11,7 @@ export const getGames = async (req, res) => {
 
 export const addGame = async (req, res) => {
   try {
-    // 🌟 Capturamos los campos del formulario
+   
     const { titulo, descripcion, precio, imagen, consola, stock, cargado_por, nombre_contacto, facebook, instagram } = req.body;
     const usuario_id = req.user.id; 
     const userRole = req.user.rol || req.user.role;
@@ -22,7 +22,7 @@ export const addGame = async (req, res) => {
 
     const stockValue = stock !== undefined ? parseInt(stock) : 0;
     
-    // 🌟 SI EL ROL ES ADMIN O EL VALOR VIENE COMO ADMIN, SE FORZA 'usuario administrador'
+    
     let creadorLabel = cargado_por;
     if (userRole === 'admin' || userRole === 'administrador' || cargado_por === 'usuario administrador') {
       creadorLabel = 'usuario administrador';
@@ -30,7 +30,7 @@ export const addGame = async (req, res) => {
       creadorLabel = 'usuario';
     }
 
-    // 🌟 Enviamos los parámetros al modelo
+    
     const newGame = await createGame(titulo, descripcion, precio, imagen, consola, usuario_id, stockValue, creadorLabel, nombre_contacto, facebook, instagram);
     
     res.status(201).json({ message: "Juego publicado con éxito", game: newGame });
@@ -39,11 +39,11 @@ export const addGame = async (req, res) => {
   }
 };
 
-// 🌟 Controlador para eliminar el juego
+
 export const removeGame = async (req, res) => {
   try {
     const { id } = req.params;
-    const usuario_id = req.user.id; // Obtenido del authMiddleware
+    const usuario_id = req.user.id; 
 
     const deletedGame = await deleteGameById(id, usuario_id);
 
