@@ -31,7 +31,7 @@ export const addGame = async (req, res) => {
   }
 };
 
-// 🌟 Nuevo controlador para eliminar el juego
+// 🌟 Controlador para eliminar el juego
 export const removeGame = async (req, res) => {
   try {
     const { id } = req.params;

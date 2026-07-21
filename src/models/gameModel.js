@@ -18,9 +18,18 @@ export const createGame = async (titulo, descripcion, precio, imagen, consola, u
   return rows[0];
 };
 
-// 🌟 Nueva función para eliminar el juego de la base de datos
+// 🌟 Función de eliminación adaptada para usuarios dueños Y Administradores
 export const deleteGameById = async (id, usuario_id) => {
-  const query = 'DELETE FROM videojuegos WHERE id = $1 AND usuario_id = $2 RETURNING *';
+  // Consulta SQL que permite eliminar si eres el creador ($2) O si eres Admin
+  const query = `
+    DELETE FROM videojuegos 
+    WHERE id = $1 
+      AND (
+        usuario_id = $2 
+        OR $2 IN (SELECT id FROM usuarios WHERE rol = 'admin' OR rol = 'administrador')
+      )
+    RETURNING *`;
+    
   const { rows } = await pool.query(query, [id, usuario_id]);
   return rows[0];
 };
