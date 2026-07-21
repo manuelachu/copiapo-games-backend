@@ -14,13 +14,21 @@ export const addGame = async (req, res) => {
     // 🌟 Capturamos los campos del formulario
     const { titulo, descripcion, precio, imagen, consola, stock, cargado_por, nombre_contacto, facebook, instagram } = req.body;
     const usuario_id = req.user.id; 
+    const userRole = req.user.rol || req.user.role;
 
     if (!titulo || !precio || !consola) {
       return res.status(400).json({ error: "Título, precio y consola son obligatorios" });
     }
 
     const stockValue = stock !== undefined ? parseInt(stock) : 0;
-    const creadorLabel = cargado_por || 'usuario sean usuarios';
+    
+    // 🌟 SI EL ROL ES ADMIN O EL VALOR VIENE COMO ADMIN, SE FORZA 'usuario administrador'
+    let creadorLabel = cargado_por;
+    if (userRole === 'admin' || userRole === 'administrador' || cargado_por === 'usuario administrador') {
+      creadorLabel = 'usuario administrador';
+    } else if (!creadorLabel) {
+      creadorLabel = 'usuario';
+    }
 
     // 🌟 Enviamos los parámetros al modelo
     const newGame = await createGame(titulo, descripcion, precio, imagen, consola, usuario_id, stockValue, creadorLabel, nombre_contacto, facebook, instagram);
